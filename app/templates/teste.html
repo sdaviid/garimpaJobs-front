@@ -1,0 +1,66 @@
+<!doctype HTML>
+<html>
+  <head>
+    <title>Google Homepage</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+    </head>
+    
+    <body>
+      <header>
+        <nav>
+          <ul id="nav_bar">
+            <li class="nav-links" id="gmail"><a href="#">Criador</a></li>
+            <li class="nav-links"><a href="#">Informa&ccedil;&otilde;es</a></li>
+            <li id="sign_in"><a href="#">gitHub</a></li>
+          </ul>  
+        </nav>  
+      </header>  
+      
+      <!-- GOOGLE IMG -->  
+      <div class="google">
+        <a href="#" id="google_logo"><img src="/google/static/logo.png" alt="logo do paint.png"/></a>
+      </div>
+      
+      <!-- FORM SEARCH -->  
+      <div class="form">  
+        <!-- <form method="GET" action="resultado"> -->
+          <label for="form-search"></label>
+          <input type="text" id="form-search" name="tx_vaga" placeholder="Vaga">
+          <label for="form-cep"></label>
+          <input type="text" id="form-cep" name="tx_cep" placeholder="CEP">
+          <label for="form-sel"></label>
+          <select name="cb_source" id="form-sel">
+            <option value="infojobs">InfoJobs</option>
+            <option value="catho">Catho</option>
+          </select>
+          <div class= "buttons">  
+            <input type="submit" value="Buscar Vagas" id="google_search">
+            <input type="submit" value="Estou com Sorte" id="im_feeling_lucky">
+          </div>
+        <!-- </form> -->
+      </div>  
+      
+      <!-- BUTTONS -->
+      <!-- <div class= "buttons">  
+        <input type="submit" value="Buscar Vagas" id="google_search">
+        <input type="submit" value="Estou com Sorte" id="im_feeling_lucky">
+      </div> -->
+        
+      <!-- FOOTER -->
+      <footer>
+          <ul class="footer-left">
+            <li><a href="#"></a></li>
+            <li><a href="#">Ideia</a></li>
+            <li><a href="#">Sobre</a></li> 
+          </ul>     
+      </footer>      
+    </body>
+    <script>
+      $(document).on('click', '#google_search', function(){
+      	window.location.href = window.location.href + 'resultado/' + document.getElementById('form-sel').value + '/' + document.getElementById('form-search').value + '/' + document.getElementById('form-cep').value + '?page=1';
+        /*window.location.href = window.location.href + 'resultado/' + document.getElementById('form-search').value + '/' + document.getElementById('form-cep').value + '/' + document.getElementById('form-sel').value + '/1';*/
+      })
+    </script>
+  </html>
