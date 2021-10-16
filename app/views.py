@@ -1,6 +1,6 @@
 from flask import render_template
 from flask import request
-
+from flask import Response
 from app import app
 
 @app.route('/')
@@ -8,7 +8,20 @@ def index():
     return render_template("teste.html")
 
 
-# @app.route('/resultado')
+@app.route('/kk')
+def ee():
+    return render_template("opaopa.html")
+
+
+
+
+
+@app.route('/static/js/main.js')
+def write_dynamic_js_const():
+    content = 'const API_END_POINT = "{}";'.format(app.config['API_END_POINT'])
+    return Response(content, mimetype='application/javascript')
+
+
 
 
 
