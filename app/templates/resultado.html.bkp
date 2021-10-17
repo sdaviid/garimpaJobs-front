@@ -9,25 +9,12 @@
   <link href="{{ url_for('static', filename='css/resultado.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="fade">
-      <div id="ctnModal" class="flex-container wrap">
-        <div class="item">
-          <span class="descr">Empresa</span><span class="resp" id="tx_empresa">Carrefour</span><br />
-          <span class="descr">Título Vaga</span><span class="resp" id="tx_title">Analista Contábil Junior</span><br />
-          <span class="descr">Salário</span><span class="resp" id="tx_salary">Até R$ 1.000,00</span><br />
-          <span class="descr">Período</span><span class="resp" id="tx_period">Remote Work</span><br />
-        </div>
-        <div class="item">
-          <span class="descr">Data Criacao</span><span class="resp" id="tx_date_creation">Remote Work</span><br />
-        </div>
-      </div>
-    </div>
-    <!-- <div id="mySidebar" class="sidebar">
+    <div id="mySidebar" class="sidebar">
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
       <span id="empresa_nome" class="dadosempresa"></span><br />
       <span id="empresa_cago" class="dadosempresa"></span><br />
       <span id="empresa_salario" class="dadosempresa"></span><br />
-    </div> -->
+    </div>
     <div class="container" id="main">
       <div class="headerSearch">
         <!--Topleft Logo-->
@@ -121,7 +108,6 @@
     </div>
   </body>
   <script>
-    
   function pegarDadosVaga(source, id_vaga){
     return $.ajax({
          async: false,
@@ -151,27 +137,13 @@
     console.log(dados_vaga);
     j = dados_vaga.responseJSON;
     if (j.status === 200){
-      let fade = document.getElementById('fade');
-      fade.style.display = "flex";
-      let cntModal = document.getElementById('ctnModal');
-      cntModal.onclick = function(event) {event.stopPropagation()}
-      document.getElementById('tx_empresa').innerHTML = j.data.name;
-      document.getElementById('tx_title').innerHTML = j.data.vacancy;
-      document.getElementById('tx_salary').innerHTML = j.data.salary;
-      document.getElementById('tx_period').innerHTML = j.data.period;
-      document.getElementById('tx_date_creation').innerHTML = j.data.date_creation;
-      /*document.getElementById("mySidebar").style.width = "250px";
-      document.getElementById("main").style.marginRight  = "250px";*/
+      document.getElementById('empresa_nome').innerHTML = j.data.name;
+      document.getElementById('empresa_cago').innerHTML = j.data.level;
+      document.getElementById('empresa_salario').innerHTML = j.data.salary;
+      document.getElementById("mySidebar").style.width = "250px";
+      document.getElementById("main").style.marginRight  = "250px";
 
     }
-    /*  let open = document.getElementById('openModal');
-
-    open.onclick = function() {fade.style.display = "flex"}
-
-
-    fade.onclick = function() {fade.style.display = "none"}*/
-
-    
   }
 
   function closeNav() {
@@ -210,7 +182,6 @@
                     elem.classList.add('searchResultsItem');
                     //elem.onclick = function() { openNav('{{ source }}', dados['ID_VAGA'])};
                     elht = '<li><a href="#' + dados['id'] + '" onclick="openNav(\'{{ source }}\', ' + dados['id'] + ');">' + dados['vacancy'] + '</a></li><p class="resultAddr">' + dados['name'] + ' - ' + dados['city'] + '/' + dados['state'] + '</p><p><span>' + dados['date_creation'] + '</span>' + dados['description'] + '</p>';
-                    /*elht = '<li><a href="#' + dados['id'] + '" onclick="openNav(1,2)" id="openModal">' + dados['vacancy'] + '</a></li><p class="resultAddr">' + dados['name'] + ' - ' + dados['city'] + '/' + dados['state'] + '</p><p><span>' + dados['date_creation'] + '</span>' + dados['description'] + '</p>';*/
                     elem.innerHTML = elht;
                     document.getElementById('jobs').appendChild(elem);
                   }
@@ -224,6 +195,7 @@
                   elem.innerHTML = elht;
                   document.getElementById('relatedSearchesList').appendChild(elem);
                 }
+
             }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -249,8 +221,5 @@
       window.location.href = '/resultado/{{ source }}/' + document.getElementById('tx_find').value + '/{{ cep }}';
       /*window.location.href = window.location.href + 'resultado/' + document.getElementById('form-search').value + '/' + document.getElementById('form-cep').value + '/' + document.getElementById('form-sel').value + '/1';*/
     })
-  </script>
-  <script>
-    
   </script>
 </html>
