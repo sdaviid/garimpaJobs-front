@@ -2,6 +2,7 @@
 <html>
   <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
     <script src="/static/js/main.js"></script>
   
 
@@ -11,6 +12,7 @@
 <body>
     <div id="fade">
       <div id="ctnModal" class="flex-container wrap">
+        <span id="fecharModal"><div id="close" class="fa fa-close"></div></span>
         <div class="item">
           <span class="descr">Empresa</span><span class="resp" id="tx_empresa">Carrefour</span><br />
           <span class="descr">Título Vaga</span><span class="resp" id="tx_title">Analista Contábil Junior</span><br />
@@ -19,6 +21,10 @@
         </div>
         <div class="item">
           <span class="descr">Data Criacao</span><span class="resp" id="tx_date_creation">Remote Work</span><br />
+          <span class="descr">Requerimentos</span>
+          <ul class="resp" id="ul_requeriments">
+          </ul>
+          <span class="descr">Link Vaga</span><a id="tx_url" class="resp">Acessar</a><br />
         </div>
       </div>
     </div>
@@ -32,7 +38,7 @@
       <div class="headerSearch">
         <!--Topleft Logo-->
         <div class="logo">
-          <a href="/google">
+          <a href="/">
             <img src="{{ url_for('static', filename='images/festisite_google.png') }}" />
           </a>
         </div>
@@ -57,19 +63,12 @@
       <!-- Preview Blurb box 
         https://codepen.io/brian-giordano/pen/OEmrKL
       -->
-      <div class="preview-blurb-box" style="display: none;">
+      <div class="preview-blurb-box" id="diverror" style="display: none;">
         <ol>
-          <li><strong>TO CREATE A WEBSITE WITH WORDPRESS (OR JOOMLA & DRUPAL), USE ONE CLICK INSTALLATION:</strong></li>
+          <li id="msgerror"><strong>TO CREATE A WEBSITE WITH WORDPRESS (OR JOOMLA & DRUPAL), USE ONE CLICK INSTALLATION:</strong></li>
         </ol>
-        <ul>
-          <li>Log in to your hosting account.</li>
-          <li>Go to your control panel.</li>
-          <li>Look for the “WordPress” or “Website” icon.</li>
-          <li>Choose the domain where you want to install your website.</li>
-        </ul>
-        <p class="result-small-gray more-items">More items...           </p>
-          <a class="search-result-item-title" href="#">How to Make a Website: Step-by-Step Guide for Beginners (2018)</a>
-    </div>
+      </div>
+
       <div class="searchResults">
         <p id="tx_qtdaprox"></p>
         <ul id="jobs">
@@ -88,7 +87,7 @@
           
         </ul>
         
-        <div class="relatedSearches">
+        <div class="relatedSearches" id="relatedSearches">
         <h4>Pesquisas relacionadas</h4>
           <ul class="relatedSearchesList" id="relatedSearchesList">
           </ul>
@@ -152,7 +151,11 @@
     j = dados_vaga.responseJSON;
     if (j.status === 200){
       let fade = document.getElementById('fade');
+      let close = document.getElementById('close');
       fade.style.display = "flex";
+      fade.style.position = "fixed";
+      close.onclick = function() {fade.style.display = "none"}
+      fade.onclick = function() {fade.style.display = "none"}
       let cntModal = document.getElementById('ctnModal');
       cntModal.onclick = function(event) {event.stopPropagation()}
       document.getElementById('tx_empresa').innerHTML = j.data.name;
@@ -160,6 +163,14 @@
       document.getElementById('tx_salary').innerHTML = j.data.salary;
       document.getElementById('tx_period').innerHTML = j.data.period;
       document.getElementById('tx_date_creation').innerHTML = j.data.date_creation;
+      document.getElementById('ul_requeriments').innerHTML = '';
+      if (j.data.requirements.length > 0){
+        for(var i=0;i<j.data.requirements.length;i++){
+          var vv = j.data.requirements[i];
+          document.getElementById('ul_requeriments').innerHTML += '<li><span class="resp">' + vv + '</span></li>';
+        }
+      }
+      document.getElementById('tx_url').href = j.data.url;
       /*document.getElementById("mySidebar").style.width = "250px";
       document.getElementById("main").style.marginRight  = "250px";*/
 
@@ -227,10 +238,21 @@
             }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
+            var msg = '';
+            if (XMLHttpRequest.status === 0){
+              msg = 'Fail to connect API';
+            }
+            else{
+              if(XMLHttpRequest.responseJSON.hasOwnProperty('message')){
+                msg = XMLHttpRequest.responseJSON.message;
+              }
+            }
             console.log(XMLHttpRequest);
             console.log(textStatus);
             console.log(errorThrown);
-                alert("some error");
+            document.getElementById('relatedSearches').style.display = 'none';
+            document.getElementById('diverror').style.display = 'block';
+            document.getElementById('msgerror').innerHTML = msg;
           }
       });
       /*var q = jQuery.get('http://127.0.0.1:8080/infojobs/pesquisar-vagas/analista/13088260/')

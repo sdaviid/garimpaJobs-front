@@ -265,7 +265,7 @@
     }
 
     .footer {
-      position:relative;
+      /*position:absolute;*/
       width:100%;
       bottom:0;
       background-color:#fafafa;
@@ -335,6 +335,10 @@ border-bottom: 3px solid #4d79ff;
   line-height: 1.5;
 }
 
+.preview-blurb-box li{
+  list-style-type: none;
+}
+
 .search-bar {
   display:inline-block;
   background-color: #fff;
@@ -373,6 +377,7 @@ border-bottom: 3px solid #4d79ff;
   background: white;
   border-radius: 2px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  justify-content: space-between;
 }
 #fecharModal {
   display: flex;
@@ -389,26 +394,26 @@ border-bottom: 3px solid #4d79ff;
   color: #666;
   font-size: 18px;
 }
-form {
+form2 {
   width: 45%;
   display: flex;
   flex-wrap: wrap;
   padding: 10px 0px 10px 20px;
 }
-form input[name="cpfCnpj"] {
+form2 input[name="cpfCnpj"] {
   width: 100%;
   margin-bottom: 15px;
   padding: 10px 10px;
 }
-form div {
+form2 div {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
-form input[name="email"] {
+form2 input[name="email"] {
   padding: 10px 10px;
 }
-form div input[name="submit"]{
+form2 div input[name="submit"]{
   padding: 4 20px;
   background: white;
   border: 1px #aaa solid;;
@@ -430,6 +435,7 @@ form div input[name="submit"]{
             /*text-align: center;*/
             width: 300px;
             /*line-height: 50px;*/
+
         }
 
 
@@ -445,6 +451,9 @@ form div input[name="submit"]{
 
 .resp{
   padding-left: 10px;
+  font-size: 13px;
+  line-height: normal;
+  margin-left: 0;
 }
 
 
