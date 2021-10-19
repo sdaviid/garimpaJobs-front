@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, send_from_directory
 from flask import request
 from flask import Response
 from app import app
@@ -20,6 +20,7 @@ def ee():
 def write_dynamic_js_const():
     content = 'const API_END_POINT = "{}";'.format(app.config['API_END_POINT'])
     return Response(content, mimetype='application/javascript')
+
 
 
 

@@ -1,34 +1,86 @@
 <!DOCTYPE HTML>
 <html>
   <head>
+    <script>
+      var source_use = "{{ source }}";
+      var vaga_use = "{{ vaga }}";
+      var cep_use = "{{ cep }}";
+      var page_use = "{{ pagina }}";
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" rel="stylesheet"/>
     <script src="/static/js/main.js"></script>
-  
 
   <meta charset="utf-8">
   <link href="{{ url_for('static', filename='css/resultado.css') }}" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="{{ url_for('static', filename='js/trampo.js') }}"></script>
 </head>
 <body>
-    <div id="fade">
-      <div id="ctnModal" class="flex-container wrap">
-        <span id="fecharModal"><div id="close" class="fa fa-close"></div></span>
-        <div class="item">
-          <span class="descr">Empresa</span><span class="resp" id="tx_empresa">Carrefour</span><br />
-          <span class="descr">Título Vaga</span><span class="resp" id="tx_title">Analista Contábil Junior</span><br />
-          <span class="descr">Salário</span><span class="resp" id="tx_salary">Até R$ 1.000,00</span><br />
-          <span class="descr">Período</span><span class="resp" id="tx_period">Remote Work</span><br />
-        </div>
-        <div class="item">
-          <span class="descr">Data Criacao</span><span class="resp" id="tx_date_creation">Remote Work</span><br />
-          <span class="descr">Requerimentos</span>
-          <ul class="resp" id="ul_requeriments">
-          </ul>
-          <span class="descr">Link Vaga</span><a id="tx_url" class="resp">Acessar</a><br />
+    <div class="modal fade" id="modal-social" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal"><i class="icon-xs-o-md"></i></button>
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title caps"><strong><span id="tx_title">Analista Contábil Junior</span></strong></h4>
+            </div>
+            <div class="modal-body">
+              <div id="via_ue" class="row" style="margin-top: -10px;">
+                <div class="col-xs-12">
+                  <p id="tx_details">Carrefour - Campinas, São Paulo - 01/02/2011</p>
+                </div>
+              </div>
+              <div id="via_social" class="row">
+                <div class="col-xs-12" style="border-bottom: solid 1px rgb(229, 228, 228);border-top: solid 1px rgb(229, 228, 228);padding-top: 10px;">
+                  <div class="row">
+                    <div class="col-xs-4">
+                      <p><i class="fa-solid fa-briefcase"></i> <span id="tx_period"> Remoto</span></p>
+                    </div>
+                    <div class="col-xs-4">
+                      <p><i class="fa-solid fa-hand-holding-dollar"></i> <span id="tx_salary"> A combinar</span></p>
+                    </div>
+                    <div class="col-xs-4">
+                      <p><i class="fa-solid fa-file-contract"></i> <span id="tx_contract"> CLT</span></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div id="via_ue" class="row">
+                <div class="col-xs-12" style="border-bottom: solid 1px rgb(229, 228, 228);padding-top: 13px;">
+                  <h4><strong>Detalhes</strong></h4>
+                  <ul id="ul_description">
+                    <li>Boa vaga</li>
+                    <li>Aprendizagem</li>
+                  </ul>
+                </div>
+                <div class="col-xs-12" style="border-bottom: solid 1px rgb(229, 228, 228);padding-top: 13px;">
+                  <h4><strong>Requerimentos</strong></h4>
+                  <ul id="ul_requeriments">
+                    <li>Boa pessoa</li>
+                    <li>Sem palavrao</li>
+                  </ul>
+                </div>
+                <div class="col-xs-12" style="border-bottom: solid 1px rgb(229, 228, 228);padding-top: 13px;">
+                  <h4><strong>Benefícios</strong></h4>
+                  <ul id="ul_benefits">
+                    <li>Ganhar dinheiro</li>
+                    <li>Sem escravidao</li>
+                  </ul>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                  <div style="margin-top:10px;">
+                    <a href="#" id="tx_url">Ir para a vaga</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="container" id="main">
+    <div class="" id="main">
       <div class="headerSearch">
         <!--Topleft Logo-->
         <div class="logo">
@@ -113,137 +165,13 @@
       
     </div>
   </body>
+  
   <script>
     
-  function pegarDadosVaga(source, id_vaga){
-    return $.ajax({
-         async: false,
-         type: 'GET',
-         url: API_END_POINT + 'get-vacancy/' + source + '/' + id_vaga,
-         success: function(j_data) {
-              console.log(j_data);
-              return j_data;
-              }
-         });
-  }
-
-  function pegarRelacionados(source, chave){
-    return $.ajax({
-         async: false,
-         type: 'GET',
-         url: API_END_POINT + 'get-keywords-from/' + source + '/' + chave,
-         success: function(j_data) {
-              console.log(j_data);
-              return j_data;
-              }
-         });
-  }
-  function openNav(source, id_vaga) {
-    dados_vaga = pegarDadosVaga(source, id_vaga);
-    console.log('dados vaga');
-    console.log(dados_vaga);
-    j = dados_vaga.responseJSON;
-    if (j.status === 200){
-      let fade = document.getElementById('fade');
-      let close = document.getElementById('close');
-      fade.style.display = "flex";
-      fade.style.position = "fixed";
-      close.onclick = function() {fade.style.display = "none"}
-      fade.onclick = function() {fade.style.display = "none"}
-      let cntModal = document.getElementById('ctnModal');
-      cntModal.onclick = function(event) {event.stopPropagation()}
-      document.getElementById('tx_empresa').innerHTML = j.data.name;
-      document.getElementById('tx_title').innerHTML = j.data.vacancy;
-      document.getElementById('tx_salary').innerHTML = j.data.salary;
-      document.getElementById('tx_period').innerHTML = j.data.period;
-      document.getElementById('tx_date_creation').innerHTML = j.data.date_creation;
-      document.getElementById('ul_requeriments').innerHTML = '';
-      if (j.data.requirements.length > 0){
-        for(var i=0;i<j.data.requirements.length;i++){
-          var vv = j.data.requirements[i];
-          document.getElementById('ul_requeriments').innerHTML += '<li><span class="resp">' + vv + '</span></li>';
-        }
-      }
-      document.getElementById('tx_url').href = j.data.url;
-    }
-    
-  }
-
-  function closeNav() {
-    document.getElementById("mySidebar").style.width = "0";
-    document.getElementById("main").style.marginRight = "0";
-  }
-  </script>
-  <script>
-    $(document).ready(function(){
-      $.ajax({
-           async: false,
-           type: 'GET',
-           url: API_END_POINT + 'search-vacancies/{{ source }}/{{ vaga }}/{{ cep }}?page={{ pagina }}',
-           success: function(j_data) {
-            if (j_data['status'] === 200){
-              var total =  j_data['total'];
-              document.getElementById('tx_qtdaprox').innerHTML = 'Aproximadamente ' + parseInt(total) + ' resultados';
-              var total_s = Math.round(total / 10);
-              var pagina = j_data['page'];
-              var path = '/resultado/';
-              var params = '{{ source }}/{{ vaga }}/{{ cep }}';
-              for(var i=0;i<total_s;i++){
-                elem = document.createElement('li')
-                if((i+1) === pagina){
-                  elem.id = 'optionsmenuactive';
-                }
-
-                elht = '<a href="' + path + params + '?page=' + (i+1).toString() + '">' + (i+1).toString() + '</a>';
-                elem.innerHTML = elht;
-                document.getElementById('paginas').appendChild(elem);
-              }
-              j_data = j_data['data'];
-                  for(var i=0;i<j_data.length;i++){
-                    dados = j_data[i];
-                    elem = document.createElement('div');
-                    elem.classList.add('searchResultsItem');
-                    elht = '<li><a href="#' + dados['id'] + '" onclick="openNav(\'{{ source }}\', ' + dados['id'] + ');">' + dados['vacancy'] + '</a></li><p class="resultAddr">' + dados['name'] + ' - ' + dados['city'] + '/' + dados['state'] + '</p><p><span>' + dados['date_creation'] + '</span>' + dados['description'] + '</p>';
-                    elem.innerHTML = elht;
-                    document.getElementById('jobs').appendChild(elem);
-                  }
-                relacionados = pegarRelacionados('{{ source }}', '{{ vaga }}');
-                j = relacionados.responseJSON;
-                for(var i=0;i<j.length;i++){
-                  var data = j[i];
-                  elem = document.createElement('li');
-                  var params = '{{ source }}/' + data + '/{{ cep }}';
-                  elht = '<a href="' + path + params + '">' + data + '</a>'
-                  elem.innerHTML = elht;
-                  document.getElementById('relatedSearchesList').appendChild(elem);
-                }
-            }
-           },
-           error: function(XMLHttpRequest, textStatus, errorThrown) {
-            var msg = '';
-            if (XMLHttpRequest.status === 0){
-              msg = 'Fail to connect API';
-            }
-            else{
-              if(XMLHttpRequest.responseJSON.hasOwnProperty('message')){
-                msg = XMLHttpRequest.responseJSON.message;
-              }
-            }
-            console.log(XMLHttpRequest);
-            console.log(textStatus);
-            console.log(errorThrown);
-            document.getElementById('relatedSearches').style.display = 'none';
-            document.getElementById('diverror').style.display = 'block';
-            document.getElementById('msgerror').innerHTML = msg;
-          }
-      });
-    });
-    $(document).on('click', '#google_search', function(e){
-      e.preventDefault();
-      window.location.href = '/resultado/{{ source }}/' + document.getElementById('tx_find').value + '/{{ cep }}';
-    })
+  
   </script>
   <script>
     
   </script>
+  
 </html>
