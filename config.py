@@ -4,7 +4,7 @@ class Config:
     ENV='development'
     DEBUG = 1
     FLASK_DEBUG = 1
-    API_END_POINT = 'http://192.168.1.103:8000/'
+    API_END_POINT = 'https://garimpajobs.herokuapp.com/'
     HOST = '0.0.0.0'
     PORT = 5000
 
