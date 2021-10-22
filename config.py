@@ -10,8 +10,3 @@ class Config:
 
 
 
-
-# FLASK_ENV='development'
-# ENV='development'
-# DEBUG = True
-# API_END_POINT = 'http://192.168.1.103:8000/'
