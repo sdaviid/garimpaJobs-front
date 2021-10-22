@@ -18,7 +18,9 @@ def ee():
 
 @app.route('/static/js/main.js')
 def write_dynamic_js_const():
-    content = 'const API_END_POINT = "{}";'.format(app.config['API_END_POINT'])
+    api_end_point = app.config['API_END_POINT']
+    api_end_point = api_end_point if api_end_point.endswith('/') == False else api_end_point[0:len(api_end_point)-1]
+    content = 'const API_END_POINT = "{}";'.format(api_end_point)
     return Response(content, mimetype='application/javascript')
 
 
