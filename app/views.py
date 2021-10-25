@@ -28,9 +28,12 @@ def write_dynamic_js_const():
 
 
 
-
-@app.route('/resultado/<source>/<vaga>/<cep>')
-def resultado(source, vaga, cep):
+@app.route('/resultado/<source>', strict_slashes=False)
+@app.route('/resultado/<source>/<vaga>', strict_slashes=False)
+@app.route('/resultado/<source>/<vaga>/<cep>', strict_slashes=False)
+def resultado(source, vaga='', cep=''):
+    vaga = request.args['keyword'] if 'keyword' in request.args and len(request.args['keyword'])>0 else vaga
+    cep = request.args['zipcode'] if 'zipcode' in request.args and len(request.args['zipcode'])>0 else cep
     page = request.args['page'] if 'page' in request.args else 1
     return render_template("resultado.html", source=source, vaga=vaga, cep=cep, pagina=int(page))
 

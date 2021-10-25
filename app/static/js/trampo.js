@@ -38,6 +38,23 @@ function pegarDadosCEP(cep){
 
 
 
+//https://stackoverflow.com/questions/4656843/get-querystring-from-url-using-jquery
+function getUrlVars()
+{
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
+
+
+
+
 function openNav(source, id_vaga) {
   dados_vaga = pegarDadosVaga(source, id_vaga);
   j = dados_vaga.responseJSON;
@@ -85,7 +102,7 @@ $(document).ready(function(){
   $.ajax({
        async: false,
        type: 'GET',
-       url: `${API_END_POINT}/search-vacancies/${source_use}/${vaga_use}/${cep_use}?page=${page_use}`,
+       url: `${API_END_POINT}/search-vacancies/${source_use}?keyword=${vaga_use}&zipcode=${cep_use}&page=${page_use}`,
        success: function(j_data) {
         if (j_data['status'] === 200){
           var total =  j_data['total'];
@@ -94,16 +111,20 @@ $(document).ready(function(){
           var total_s = Math.round(total / 10);
           var pagina = j_data['page'];
           var path = '/resultado/';
-          var params = `${source_use}/${vaga_use}/${cep_use}`;
+          var params = `${source_use}?keyword=${vaga_use}&zipcode=${cep_use}`;
+          var total_pages = 0;
           for(var i=0;i<total_s;i++){
+            if(total_pages>10)
+              break;
             var atual = ((i+1) === pagina ? 'optionsmenuactive' : '');
             $('ul#paginas').append(
               $('<li>').attr('id', atual).append(
-                $('<a>').attr('href', `${path}${params}?page=${i+1}`).text(
+                $('<a>').attr('href', `${path}${params}&page=${i+1}`).text(
                   `${i+1}`
                 )
               )
             );
+            total_pages +=1;
           }
           j_data = j_data['data'];
           for(var i=0;i<j_data.length;i++){
@@ -133,18 +154,24 @@ $(document).ready(function(){
             );
             $('#jobs').append(elem);
           }
-          relacionados = pegarRelacionados(source_use, vaga_use);
-          j = relacionados.responseJSON;
-          for(var i=0;i<j.length;i++){
-            var data = j[i];
-            var params = `${source_use}/${data}/${cep_use}`;
-            $('ul#relatedSearchesList').append(
-              $('<li>').append(
-                $('<a>').attr('href', `${path}${params}`).text(
-                  `${data}`
+          if(vaga_use.length>0){
+            relacionados = pegarRelacionados(source_use, vaga_use);
+            j = relacionados.responseJSON;
+            var total_related = 0;
+            for(var i=0;i<j.length;i++){
+              if(total_related>10)
+                break
+              var data = j[i];
+              var params = `${source_use}?keyword=${data}&zipcode=${cep_use}`;
+              $('ul#relatedSearchesList').append(
+                $('<li>').append(
+                  $('<a>').attr('href', `${path}${params}`).text(
+                    `${data}`
+                  )
                 )
-              )
-            );
+              );
+              total_related += 1;
+            }
           }
         }
        },
@@ -171,19 +198,25 @@ $(document).ready(function(){
     var obj = $(this);
     openNav(obj.attr('data_source'), obj.attr('data_id'));
   });
+  if (cep_use.length==0){
+    if(getUrlVars().hasOwnProperty('zipcode')===true){
+      cep_use = getUrlVars()['zipcode'];
+    }
+  }
   
   $(document).on('click', '#google_search', function(e){
     e.preventDefault();
     var find_str = $('#tx_find').val()
-    window.location.href = `/resultado/${source_use}/${find_str}/${cep_use}`;
+    window.location.href = `/resultado/${source_use}?keyword=${find_str}&zipcode=${cep_use}`;
   });
-
-  var dados_cep = pegarDadosCEP(cep_use);
-  if(dados_cep){
-    dados_cep = dados_cep.responseJSON;
-    if(dados_cep.status === 200){
-      $('#tx_cidade').text(dados_cep.data.city);
-      $('#tx_estado').text(dados_cep.data.state);
+  if (cep_use.length>0){
+    var dados_cep = pegarDadosCEP(cep_use);
+    if(dados_cep){
+      dados_cep = dados_cep.responseJSON;
+      if(dados_cep.status === 200){
+        $('#tx_cidade').text(dados_cep.data.city);
+        $('#tx_estado').text(dados_cep.data.state);
+      }
     }
   }
 });
