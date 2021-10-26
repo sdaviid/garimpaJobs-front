@@ -59,7 +59,7 @@
     </body>
     <script>
       $(document).on('click', '#google_search', function(){
-        path_go = `/resultado/${$('#form-sel').val()}?keyword=${$('#form-search').val()}&zipcode=${$('#form-cep').val()}&page=1`;
+        path_go = `/resultado?key_source=${$('#form-sel').val()}&keyword=${$('#form-search').val()}&zipcode=${$('#form-cep').val()}&page=1`;
         window.location.href = path_go;
       	/*window.location.href = window.location.href + 'resultado/' + document.getElementById('form-sel').value + '/' + document.getElementById('form-search').value + '/' + document.getElementById('form-cep').value + '?page=1';*/
         /*window.location.href = window.location.href + 'resultado/' + document.getElementById('form-search').value + '/' + document.getElementById('form-cep').value + '/' + document.getElementById('form-sel').value + '/1';*/

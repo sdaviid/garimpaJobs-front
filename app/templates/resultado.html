@@ -3,9 +3,10 @@
   <head>
     <script>
       var source_use = "{{ source }}";
-      var vaga_use = "{{ vaga }}";
-      var cep_use = "{{ cep }}";
-      var page_use = "{{ pagina }}";
+      var vaga_use = "{{ keyword }}";
+      var cep_use = "{{ zipcode }}";
+      var page_use = "{{ page }}";
+      var orderby_use = "{{ order_by }}";
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" rel="stylesheet"/>
@@ -91,7 +92,7 @@
         <!--Searchbar-->
         <div class="searchForm search-bar">
             <form>
-              <input class="searchBar" name="tx_find" id="tx_find" type="text" value="{{ vaga }}" >
+              <input class="searchBar" name="tx_find" id="tx_find" type="text" value="{{ keyword }}" >
               <!-- <img class="search-bar-icons" src="http://ses.edu/wp-content/themes/ses/img/search-icon.svg" style="height: 20px; width: 20px;"> -->
               <input type="image" id="google_search" class="search-bar-icons" src="http://ses.edu/wp-content/themes/ses/img/search-icon.svg" />
               <!-- <input type="submit" value="Buscar Vagas" id="google_search"> -->
@@ -101,9 +102,9 @@
       <!--Navigation tabs-->
       <div class="headerNav">             
         <ul>
-          <li id="optionsmenuactive"><a href="#">Todos</a></li>
-          <!-- <li><a href="#">Novos</a></li>
-          <li><a href="#">Ferramentas</a></li> -->
+          <li id="relevancia"><a href="#relevancia">Todos</a></li>
+          <li id="recente"><a href="#recente">Novos</a></li>
+          <!-- <li><a href="#">Ferramentas</a></li> -->
         </ul>
       </div>
       <!-- Preview Blurb box 

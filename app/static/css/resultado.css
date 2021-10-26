@@ -183,7 +183,7 @@ hr {
   position:block;
   margin-left:auto;
   margin-right:auto;
-  width:250px;
+  width:350px;
 }
 
 .pageNumbers ul li{
@@ -246,19 +246,19 @@ hr {
   
 }
 
-#optionsmenuactive {
+.optionsmenuactive {
   /*color: #4285F4;
   font-weight: bold;
   position: relative;*/
   font-weight: bold;
-  font-color:#4d79ff;
+  color:#4d79ff;
   border-bottom: 3px solid #4d79ff;
   padding-bottom:20px;
     
 }
 
-#optionsmenuactive a {
-  color:#4d79ff;
+.optionsmenuactive a {
+  color:#4d79ff!important;
 }
 
 

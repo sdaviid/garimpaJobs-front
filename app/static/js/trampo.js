@@ -99,10 +99,20 @@ function openNav(source, id_vaga) {
 
 
 $(document).ready(function(){
+  if (orderby_use.length==0){
+    if(getUrlVars().hasOwnProperty('order_by')===true){
+      orderby_use = getUrlVars()['order_by'];
+    }
+  }
+  if (orderby_use==='new'){
+    $('#recente').addClass('optionsmenuactive');
+  }else{
+    $('#relevancia').addClass('optionsmenuactive');
+  }
   $.ajax({
        async: false,
        type: 'GET',
-       url: `${API_END_POINT}/search-vacancies/${source_use}?keyword=${vaga_use}&zipcode=${cep_use}&page=${page_use}`,
+       url: `${API_END_POINT}/search-vacancies?key_source=${source_use}&keyword=${vaga_use}&zipcode=${cep_use}&page=${page_use}&order_by=${orderby_use}`,
        success: function(j_data) {
         if (j_data['status'] === 200){
           var total =  j_data['total'];
@@ -111,14 +121,18 @@ $(document).ready(function(){
           var total_s = Math.round(total / 10);
           var pagina = j_data['page'];
           var path = '/resultado/';
-          var params = `${source_use}?keyword=${vaga_use}&zipcode=${cep_use}`;
+          var params = `?key_source=${source_use}&keyword=${vaga_use}&zipcode=${cep_use}&order_by=${orderby_use}`;
           var total_pages = 0;
-          for(var i=0;i<total_s;i++){
+          var iniciar = 0;
+          if(pagina>10){
+            iniciar = pagina - 3;
+          }
+          for(var i=iniciar;i<total_s;i++){
             if(total_pages>10)
               break;
             var atual = ((i+1) === pagina ? 'optionsmenuactive' : '');
             $('ul#paginas').append(
-              $('<li>').attr('id', atual).append(
+              $('<li>').addClass(atual).append(
                 $('<a>').attr('href', `${path}${params}&page=${i+1}`).text(
                   `${i+1}`
                 )
@@ -133,7 +147,7 @@ $(document).ready(function(){
             elem.classList.add('searchResultsItem');
             $(elem).append(
               $('<li>').append(
-                $('<a>').attr('href', `#${dados['id']}`).attr('data_source', `${source_use}`).attr('data_id', `${dados['id']}`).attr('vacancy_source', true).text(
+                $('<a>').attr('href', `#${dados['id']}`).attr('data_source', `${dados['source']}`).attr('data_id', `${dados['id']}`).attr('vacancy_source', true).text(
                   `${dados['vacancy']}`
                 )
               )
@@ -162,7 +176,7 @@ $(document).ready(function(){
               if(total_related>10)
                 break
               var data = j[i];
-              var params = `${source_use}?keyword=${data}&zipcode=${cep_use}`;
+              var params = `?&key_source=${source_use}&keyword=${data}&zipcode=${cep_use}&order_by=${orderby_use}`;
               $('ul#relatedSearchesList').append(
                 $('<li>').append(
                   $('<a>').attr('href', `${path}${params}`).text(
@@ -207,7 +221,7 @@ $(document).ready(function(){
   $(document).on('click', '#google_search', function(e){
     e.preventDefault();
     var find_str = $('#tx_find').val()
-    window.location.href = `/resultado/${source_use}?keyword=${find_str}&zipcode=${cep_use}`;
+    window.location.href = `/resultado?key_source=${source_use}&keyword=${find_str}&zipcode=${cep_use}&order_by=${orderby_use}`;
   });
   if (cep_use.length>0){
     var dados_cep = pegarDadosCEP(cep_use);
@@ -216,6 +230,22 @@ $(document).ready(function(){
       if(dados_cep.status === 200){
         $('#tx_cidade').text(dados_cep.data.city);
         $('#tx_estado').text(dados_cep.data.state);
+      }
+    }
+  }
+});
+
+
+//https://stackoverflow.com/a/7257830
+$(window).bind('hashchange', function () { 
+  var hash = window.location.hash.slice(1);
+  console.log(hash);
+  if(['relevancia', 'recente'].includes(hash)){
+    if(hash==='recente'){
+      window.location.href = `/resultado?key_source=${source_use}&keyword=${vaga_use}&zipcode=${cep_use}&order_by=new`;
+    }else{
+      if(hash==='relevancia'){
+        window.location.href = `/resultado?key_source=${source_use}&keyword=${vaga_use}&zipcode=${cep_use}&order_by=`;
       }
     }
   }

@@ -21,13 +21,15 @@ def write_dynamic_js_const():
 
 
 
-
-@app.route('/resultado/<source>', strict_slashes=False)
-@app.route('/resultado/<source>/<vaga>', strict_slashes=False)
-@app.route('/resultado/<source>/<vaga>/<cep>', strict_slashes=False)
-def resultado(source, vaga='', cep=''):
-    vaga = request.args['keyword'] if 'keyword' in request.args and len(request.args['keyword'])>0 else vaga
-    cep = request.args['zipcode'] if 'zipcode' in request.args and len(request.args['zipcode'])>0 else cep
+@app.route('/resultado', strict_slashes=False)
+@app.route('/resultado/<key_source>', strict_slashes=False)
+@app.route('/resultado/<key_source>/<keyword>', strict_slashes=False)
+@app.route('/resultado/<key_source>/<keyword>/<zipcode>', strict_slashes=False)
+def resultado(key_source='', keyword='', zipcode=''):
+    key_source = request.args['key_source'] if 'key_source' in request.args and len(request.args['key_source'])>0 else key_source
+    keyword = request.args['keyword'] if 'keyword' in request.args and len(request.args['keyword'])>0 else keyword
+    zipcode = request.args['zipcode'] if 'zipcode' in request.args and len(request.args['zipcode'])>0 else zipcode
     page = request.args['page'] if 'page' in request.args else 1
-    return render_template("resultado.html", source=source, vaga=vaga, cep=cep, pagina=int(page))
+    order_by = request.args['order_by'] if 'order_by' in request.args else ''
+    return render_template("resultado.html", source=key_source, keyword=keyword, zipcode=zipcode, page=int(page), order_by=order_by)
 
