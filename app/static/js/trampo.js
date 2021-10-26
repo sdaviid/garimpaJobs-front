@@ -217,11 +217,15 @@ $(document).ready(function(){
       cep_use = getUrlVars()['zipcode'];
     }
   }
+
+  $(`option[value="${source_use}"]`).attr('selected', true)
   
   $(document).on('click', '#google_search', function(e){
     e.preventDefault();
-    var find_str = $('#tx_find').val()
-    window.location.href = `/resultado?key_source=${source_use}&keyword=${find_str}&zipcode=${cep_use}&order_by=${orderby_use}`;
+    var find_str = $('#tx_find').val();
+    var source_str = $('#form-sel').val();
+    var zipcode_str = $('#form-cep').val();
+    window.location.href = `/resultado?key_source=${source_str}&keyword=${find_str}&zipcode=${zipcode_str}&order_by=${orderby_use}`;
   });
   if (cep_use.length>0){
     var dados_cep = pegarDadosCEP(cep_use);

@@ -92,7 +92,13 @@
         <!--Searchbar-->
         <div class="searchForm search-bar">
             <form>
-              <input class="searchBar" name="tx_find" id="tx_find" type="text" value="{{ keyword }}" >
+              <input class="searchBar" name="tx_find" id="tx_find" type="text" value="{{ keyword }}" placeholder="Vaga" />
+              <select name="cb_source" id="form-sel" class="searchBar">
+                <option value="">Todos</option>
+                <option value="infojobs">InfoJobs</option>
+                <option value="catho">Catho</option>
+              </select>
+              <input type="text" id="form-cep" name="tx_cep" placeholder="CEP" class="searchBar" value="{{ zipcode }}">
               <!-- <img class="search-bar-icons" src="http://ses.edu/wp-content/themes/ses/img/search-icon.svg" style="height: 20px; width: 20px;"> -->
               <input type="image" id="google_search" class="search-bar-icons" src="http://ses.edu/wp-content/themes/ses/img/search-icon.svg" />
               <!-- <input type="submit" value="Buscar Vagas" id="google_search"> -->
