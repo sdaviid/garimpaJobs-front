@@ -5,6 +5,7 @@ https://github.com/sdaviid/garimpaJobs
 
 
 O layout e formulários foram em sua maioria baseadas em exemplos obtidos no CodePen.io
+
 Muito provavelmente um desenvolvedor Front-End me espancaria na rua com os metódos utilizados neste repositório, mas foi desenvolvido com amor por alguém em fase de aprendizagem.
 
 Neste projeto foi utilizado jQuery e em alguns objetos funções do Bootstrap.
